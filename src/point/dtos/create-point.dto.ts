@@ -1,5 +1,8 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
+import { Point } from '../entity/point.entity';
 
 export class CreatePointDto {
   @ApiProperty({
@@ -17,4 +20,12 @@ export class CreatePointDto {
   @IsNotEmpty()
   @IsString()
   description: string;
+}
+export class CreatePointResponse extends CommonResponse {
+  @ApiProperty({
+    description: 'Create point',
+    type: Point,
+  })
+  @Type(() => Point)
+  data: Point;
 }

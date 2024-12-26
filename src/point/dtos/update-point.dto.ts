@@ -1,5 +1,8 @@
 import { IsOptional, IsString } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
+import { Type } from 'class-transformer';
+import { Point } from '../entity/point.entity';
 
 export class UpdatePointDto {
   @ApiPropertyOptional({
@@ -10,11 +13,19 @@ export class UpdatePointDto {
   @IsString()
   location?: string;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'The new description of the point',
     example: 'Updated description for the point.',
   })
   @IsOptional()
   @IsString()
   description?: string;
+}
+export class UpdatePointResponse extends CommonResponse {
+  @ApiProperty({
+    description: 'Updated point',
+    type: Point,
+  })
+  @Type(() => Point)
+  data: Point;
 }

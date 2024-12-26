@@ -1,34 +1,43 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { Pool } from 'pg';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { CreatePointDto } from './dtos/create-point.dto';
+import { UpdatePointDto } from './dtos/update-point.dto';
+import { Point } from './entity/point.entity';
+import { Database } from 'src/core/database/database.service';
 
 @Injectable()
 export class PointsRepository {
-  constructor(@Inject('DATABASE_POOL') private readonly pool: Pool) {}
+  private readonly logger = new Logger(PointsRepository.name);
 
-  async createPoint(location: string, description: string) {
+  constructor(private readonly databaseService: Database) {}
+
+  async createPoint(createPointDto: CreatePointDto): Promise<Point> {
+    const { location, description } = createPointDto;
     const query = `
       INSERT INTO points (location, description)
       VALUES (ST_GeomFromGeoJSON($1), $2)
       RETURNING id, ST_AsGeoJSON(location) AS location, description;
     `;
-    const result = await this.pool.query(query, [location, description]);
-    return result.rows[0];
+    const [point] = await this.databaseService.query<Point>(query, [
+      location,
+      description,
+    ]);
+    return point;
   }
 
-  async getPoints() {
+  async getPoints(): Promise<Point[]> {
     const query = `
       SELECT id, ST_AsGeoJSON(location) AS location, description
       FROM points;
     `;
-    const result = await this.pool.query(query);
-    return result.rows;
+    const points = await this.databaseService.query<Point>(query);
+    return points;
   }
 
   async updatePoint(
     id: number,
-    location: string | null,
-    description: string | null,
-  ) {
+    updatePointDto: UpdatePointDto,
+  ): Promise<Point> {
+    const { location, description } = updatePointDto;
     const query = `
       UPDATE points
       SET location = COALESCE(ST_GeomFromGeoJSON($1), location),
@@ -36,13 +45,20 @@ export class PointsRepository {
       WHERE id = $3
       RETURNING id, ST_AsGeoJSON(location) AS location, description;
     `;
-    const result = await this.pool.query(query, [location, description, id]);
-    return result.rows[0] || null;
+    const [updatePoint] = await this.databaseService.query<Point>(query, [
+      location,
+      description,
+      id,
+    ]);
+    if (!updatePoint) throw new NotFoundException('Point Not Found!');
+    return updatePoint;
   }
 
-  async deletePoint(id: number) {
+  async deletePoint(id: number): Promise<Partial<Point>> {
+    const params = [id];
     const query = `DELETE FROM points WHERE id = $1 RETURNING *;`;
-    const result = await this.pool.query(query, [id]);
-    return result.rows[0] || null;
+    const [data] = await this.databaseService.query<Point>(query, params);
+    if (!data) throw new NotFoundException('Point Not Found');
+    return data;
   }
 }
