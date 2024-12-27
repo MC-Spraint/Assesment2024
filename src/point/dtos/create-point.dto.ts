@@ -3,7 +3,6 @@ import {
   ArrayMinSize,
   IsArray,
   IsNotEmpty,
-  IsNumber,
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
@@ -29,8 +28,9 @@ export class LocationDTO {
   @IsArray()
   @ArrayMinSize(2)
   @ArrayMaxSize(2)
-  @IsNumber({}, { each: true })
-  coordinates: number[];
+  // @IsNumber({}, { each: true })
+  // @Type(() => Number)
+  coordinates: [number, number];
 }
 
 export class CreatePointDto {

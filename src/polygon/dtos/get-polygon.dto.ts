@@ -8,6 +8,6 @@ export class GetPolygonsResponse extends CommonResponse {
     description: 'List of polygons retrieved',
     type: [Polygon],
   })
-  @Type(() => Polygon)
+  @Type(() => Array<Polygon>)
   data: Polygon[];
 }

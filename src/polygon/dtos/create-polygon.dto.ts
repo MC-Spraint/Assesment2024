@@ -30,10 +30,9 @@ export class AreaDto {
   @IsNotEmpty()
   @ArrayNotEmpty()
   @IsArray()
-  coordinates: number[][][]; // Coordinates for polygon are usually an array of arrays of points
+  coordinates: number[][][];
 }
 
-// Define the main `Polygon` class that includes the Area class for the area field
 export class CreatePolygonDto {
   @ApiProperty({
     description: 'The GeoJSON object representing the area (polygon)',
