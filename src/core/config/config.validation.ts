@@ -6,5 +6,6 @@ export const configValidations = Joi.object().keys({
 });
 
 export enum EnvVariables {
+  PORT = 'PORT',
   DATABASE_URL = 'DATABASE_URL',
 }
