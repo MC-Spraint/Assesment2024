@@ -18,6 +18,9 @@ async function ApplicationBootstrap(): Promise<void> {
   const middleWares = new MiddleWaresConfig(app, logger);
   middleWares.configure();
   SwaggerModule.setup('api', app, createDocument(app));
+  if (isNaN(port) || port <= 0 || port >= 65536) {
+    throw new Error(`Invalid PORT value: ${process.env.PORT}`);
+  }
   await app.listen(port);
   logger.log(
     `server is up & running on port ${port}`,
