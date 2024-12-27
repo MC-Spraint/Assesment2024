@@ -33,7 +33,7 @@ export const databaseProviders = [
       try {
         await pgPool.connect();
       } catch (err) {
-        logger.error('Failed to connect to PostgreSQL:', err.message);
+        logger.error('Failed to connect to PostgreSQL:', err);
         process.exit(1);
       }
 
