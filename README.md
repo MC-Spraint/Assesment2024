@@ -1,5 +1,5 @@
 Project base endpoint /api
-#### This project uses postgres as database and postgis extension for storing spatial data
+#### This project uses NodeJs with NestJs and postgres as a database and its extension postgis for storing spatial data
 
 #### How to create postgis extension
 
