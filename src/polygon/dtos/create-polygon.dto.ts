@@ -1,10 +1,15 @@
-import { IsString, IsNotEmpty, IsArray, ArrayNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsArray,
+  ArrayNotEmpty,
+  ValidateNested,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Polygon } from '../entity/polygon.entity';
 import { Type } from 'class-transformer';
 import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
 
-// Define the class for the Area (Polygon) GeoJSON representation
 export class AreaDto {
   @ApiProperty({
     example: 'Polygon',
@@ -27,25 +32,15 @@ export class AreaDto {
   @IsNotEmpty()
   @ArrayNotEmpty()
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => Array<Array<number>>)
   coordinates: number[][][];
 }
 
 export class CreatePolygonDto {
-  @ApiProperty({
-    example: {
-      type: 'Polygon',
-      coordinates: [
-        [
-          [-77.0364, 38.8951],
-          [-77.0364, 38.8961],
-          [-77.0354, 38.8961],
-          [-77.0354, 38.8951],
-          [-77.0364, 38.8951],
-        ],
-      ],
-    },
-  })
+  @ApiProperty({})
   @IsNotEmpty()
+  @ValidateNested()
   @Type(() => AreaDto)
   area: AreaDto;
 

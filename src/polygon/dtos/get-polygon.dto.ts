@@ -7,6 +7,6 @@ export class GetPolygonsResponse extends CommonResponse {
   @ApiProperty({
     description: 'List of polygons retrieved',
   })
-  @Type(() => Array<Polygon>)
+  @Type(() => Polygon)
   data: Polygon[];
 }
