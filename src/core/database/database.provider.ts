@@ -14,7 +14,6 @@ export const databaseProviders = [
     useFactory: async (configService: ConfigService): Promise<pg.Pool> => {
       const logger = new Logger(DATABASE_CONNECTION);
 
-      console.log(configService.get(EnvVariables.DATABASE_URL as string));
       const pgPool = new pg.Pool({
         connectionString: configService.get(
           EnvVariables.DATABASE_URL as string,
