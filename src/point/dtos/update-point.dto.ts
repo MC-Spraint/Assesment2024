@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
 import { Type } from 'class-transformer';
@@ -10,6 +10,7 @@ export class UpdatePointDto {
     example: { type: 'Point', coordinates: [-77.0364, 38.8951] },
   })
   @IsOptional()
+  @ValidateNested()
   @Type(() => LocationDTO)
   location?: LocationDTO;
 

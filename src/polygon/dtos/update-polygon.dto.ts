@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, ValidateNested } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Polygon } from '../entity/polygon.entity';
 import { Type } from 'class-transformer';
@@ -8,6 +8,7 @@ import { AreaDto } from './create-polygon.dto';
 export class UpdatePolygonDto {
   @ApiProperty({})
   @IsOptional()
+  @ValidateNested()
   @Type(() => AreaDto)
   area?: AreaDto;
 

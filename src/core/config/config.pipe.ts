@@ -8,6 +8,7 @@ export const VALIDATION_PIPE: ValidationPipe = new ValidationPipe({
   transform: true,
   whitelist: true,
   forbidNonWhitelisted: true,
+  forbidUnknownValues: false,
   exceptionFactory: (
     validationErrors: ValidationError[],
   ): BadRequestException => {

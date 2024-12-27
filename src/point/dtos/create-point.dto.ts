@@ -1,9 +1,11 @@
 import {
   ArrayMaxSize,
   ArrayMinSize,
+  ArrayNotEmpty,
   IsArray,
   IsNotEmpty,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
@@ -22,6 +24,7 @@ export class LocationDTO {
     example: [-77.0364, 38.8951],
   })
   @IsNotEmpty()
+  @ArrayNotEmpty()
   @IsArray()
   @ArrayMinSize(2)
   @ArrayMaxSize(2)
@@ -35,6 +38,7 @@ export class CreatePointDto {
     example: { type: 'Point', coordinates: [-77.0364, 38.8951] },
   })
   @IsNotEmpty()
+  @ValidateNested()
   @Type(() => LocationDTO)
   location: LocationDTO;
 

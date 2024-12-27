@@ -30,10 +30,8 @@ export class AreaDto {
     ],
   })
   @IsNotEmpty()
-  @ArrayNotEmpty()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => Array<Array<number>>)
+  @ArrayNotEmpty()
   coordinates: number[][][];
 }
 
