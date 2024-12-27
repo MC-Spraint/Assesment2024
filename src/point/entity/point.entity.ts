@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Location {
   @ApiProperty({})
-  type: string;
+  type: 'Point';
 
   @ApiProperty({})
   coordinates: number[];

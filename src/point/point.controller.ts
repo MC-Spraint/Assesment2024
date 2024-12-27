@@ -18,6 +18,7 @@ import { Response } from 'express';
 import { UtilService } from 'src/core/utils/util.service';
 import { SuccessResponse } from 'src/core/utils/dtos/success-response.enum';
 import { Point } from './entity/point.entity';
+import { CommonErrorResponseDto } from 'src/core/utils/dtos/common-error-response.dto';
 
 @ApiTags('Points') // Grouping in Swagger
 @Controller('points')
@@ -34,7 +35,11 @@ export class PointsController {
     description: 'Create task!',
     type: CreatePointResponse,
   })
-  @ApiResponse({ status: 400, description: 'Invalid input.' })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid Input!',
+    type: CommonErrorResponseDto,
+  })
   @Post()
   async createPoint(
     @Res() res: Response,
@@ -74,6 +79,11 @@ export class PointsController {
     type: UpdatePointResponse,
   })
   @ApiResponse({ status: 404, description: 'Point not found.' })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid Input!',
+    type: CommonErrorResponseDto,
+  })
   @Patch(':id')
   async updatePoint(
     @Res() res: Response,
@@ -95,7 +105,11 @@ export class PointsController {
     description: 'The point has been successfully deleted.',
     type: UpdatePointResponse,
   })
-  @ApiResponse({ status: 404, description: 'Point not found.' })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Polygon not found.',
+    type: CommonErrorResponseDto,
+  })
   @Delete(':id')
   async deletePoint(
     @Res() res: Response,

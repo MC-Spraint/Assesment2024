@@ -17,7 +17,7 @@ export class LocationDTO {
   })
   @IsNotEmpty()
   @IsString()
-  type: string;
+  type: 'Point';
 
   @ApiProperty({
     description:

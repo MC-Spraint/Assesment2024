@@ -41,7 +41,11 @@ export class PolygonsController {
     description: 'Create polygon!',
     type: CreatePolygonResponse,
   })
-  @ApiResponse({ status: 400, description: 'Invalid input.' })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid Input!',
+    type: CommonErrorResponseDto,
+  })
   @Post()
   async createPoint(
     @Res() res: Response,
@@ -83,6 +87,11 @@ export class PolygonsController {
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: 'Polygon not found.',
+    type: CommonErrorResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid Input!',
     type: CommonErrorResponseDto,
   })
   @ApiResponse({ status: 404, description: 'polygon not found.' })

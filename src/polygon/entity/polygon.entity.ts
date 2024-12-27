@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Area {
   @ApiProperty({})
-  type: string;
+  type: 'Polygon';
 
   @ApiProperty({})
   coordinates: number[][][]; // Coordinates for polygon are usually an array of arrays of points
