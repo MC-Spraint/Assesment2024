@@ -28,6 +28,7 @@ export const databaseProviders = [
       //   user: configService.get(EnvVariables.PGUSER as string),
       //   password: configService.get(EnvVariables.PGPASSWORD as string),
       //   port: parseInt(configService.get(EnvVariables.PGPORT), 10),
+      //   ssl: { rejectUnauthorized: false },
       // });
 
       try {
