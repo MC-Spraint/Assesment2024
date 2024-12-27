@@ -1,4 +1,5 @@
-Project base endpoint /api
+Deployed URL: https://assesment2024.onrender.com/api
+
 #### This project uses NodeJs with NestJs and postgres as a database and its extension postgis for storing spatial data
 
 #### How to create postgis extension
