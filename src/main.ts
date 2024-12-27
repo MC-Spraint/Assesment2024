@@ -14,13 +14,12 @@ async function ApplicationBootstrap(): Promise<void> {
   });
   const logger = app.get(Logger);
   const configService = app.get(ConfigService);
-  const port = configService.get(EnvVariables.PORT);
+  const port = Number(configService.get(EnvVariables.PORT));
   const middleWares = new MiddleWaresConfig(app, logger);
+
   middleWares.configure();
   SwaggerModule.setup('api', app, createDocument(app));
-  if (isNaN(port) || port <= 0 || port >= 65536) {
-    throw new Error(`Invalid PORT value: ${process.env.PORT}`);
-  }
+
   await app.listen(port);
   logger.log(
     `server is up & running on port ${port}`,
