@@ -3,11 +3,10 @@ import { PointsRepository } from './point.repo';
 import { PointsService } from './point.service';
 import { PointsController } from './point.controller';
 import { DatabaseModule } from 'src/core/database/database.module';
-import { UtilService } from 'src/core/utils/util.service';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [PointsController],
-  providers: [PointsService, PointsRepository, UtilService],
+  providers: [PointsService, PointsRepository],
 })
 export class PointsModule {}
