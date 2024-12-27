@@ -22,15 +22,6 @@ export const databaseProviders = [
           rejectUnauthorized: false,
         },
       });
-      // const pgPool = new pg.Pool({
-      //   host: configService.get(EnvVariables.PGHOST as string),
-      //   database: configService.get(EnvVariables.POSTGRES_DB as string),
-      //   user: configService.get(EnvVariables.PGUSER as string),
-      //   password: configService.get(EnvVariables.PGPASSWORD as string),
-      //   port: parseInt(configService.get(EnvVariables.PGPORT), 10),
-      //   ssl: { rejectUnauthorized: false },
-      // });
-
       try {
         await pgPool.connect();
       } catch (err) {
