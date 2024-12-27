@@ -15,12 +15,20 @@ export const databaseProviders = [
       const logger = new Logger(DATABASE_CONNECTION);
 
       const pgPool = new pg.Pool({
-        host: configService.get(EnvVariables.PGHOST as string),
-        database: configService.get(EnvVariables.POSTGRES_DB as string),
-        user: configService.get(EnvVariables.PGUSER as string),
-        password: configService.get(EnvVariables.PGPASSWORD as string),
-        port: parseInt(configService.get(EnvVariables.PGPORT), 10),
+        connectionString: configService.get(
+          EnvVariables.DATABASE_URL as string,
+        ),
+        ssl: {
+          rejectUnauthorized: false,
+        },
       });
+      // const pgPool = new pg.Pool({
+      //   host: configService.get(EnvVariables.PGHOST as string),
+      //   database: configService.get(EnvVariables.POSTGRES_DB as string),
+      //   user: configService.get(EnvVariables.PGUSER as string),
+      //   password: configService.get(EnvVariables.PGPASSWORD as string),
+      //   port: parseInt(configService.get(EnvVariables.PGPORT), 10),
+      // });
 
       try {
         await pgPool.connect();

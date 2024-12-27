@@ -8,6 +8,7 @@ export const configValidations = Joi.object().keys({
   PGPORT: Joi.string().required(),
   PGUSER: Joi.string().required(),
   POSTGRES_DB: Joi.string().required(),
+  DATABASE_URL: Joi.string().required(),
 });
 
 export enum EnvVariables {
@@ -18,4 +19,5 @@ export enum EnvVariables {
   PGPORT = 'PGPORT',
   PGUSER = 'PGUSER',
   POSTGRES_DB = 'POSTGRES_DB',
+  DATABASE_URL = 'DATABASE_URL',
 }
