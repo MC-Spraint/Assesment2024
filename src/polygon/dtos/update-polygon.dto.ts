@@ -7,7 +7,6 @@ import { AreaDto } from './create-polygon.dto';
 
 export class UpdatePolygonDto {
   @ApiProperty({
-    description: 'The GeoJSON object representing the area (polygon)',
     example: {
       type: 'Polygon',
       coordinates: [
@@ -26,18 +25,14 @@ export class UpdatePolygonDto {
   area?: AreaDto;
 
   @ApiPropertyOptional({
-    description: 'Description of the polygon (optional)',
-    example: 'An updated polygon description',
+    example: 'Updated polygon description',
   })
   @IsString()
   @IsOptional()
   description?: string;
 }
 export class UpdatePolygonResponse extends CommonResponse {
-  @ApiProperty({
-    description: 'Updated polygon',
-    type: Polygon,
-  })
+  @ApiProperty({})
   @Type(() => Polygon)
   data: Polygon;
 }

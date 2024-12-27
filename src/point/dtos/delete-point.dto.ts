@@ -6,7 +6,6 @@ import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
 
 export class DeletePointDto {
   @ApiProperty({
-    description: 'The unique identifier of the point to delete',
     example: 1,
   })
   @IsNotEmpty()
@@ -15,10 +14,7 @@ export class DeletePointDto {
   id: number;
 }
 export class DeletePointResponse extends CommonResponse {
-  @ApiProperty({
-    description: 'Point deleted',
-    type: Point,
-  })
+  @ApiProperty({})
   @Type(() => Point)
   data: Point;
 }

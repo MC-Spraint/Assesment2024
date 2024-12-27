@@ -6,17 +6,13 @@ import { Type } from 'class-transformer';
 
 export class DeletePolygonDto {
   @ApiProperty({
-    description: 'ID of the polygon to delete',
     example: 1,
   })
   @IsNumber()
   id: number;
 }
 export class DeletePolygonResponse extends CommonResponse {
-  @ApiProperty({
-    description: 'Polygon deleted',
-    type: Polygon,
-  })
+  @ApiProperty({})
   @Type(() => Polygon)
   data: Polygon;
 }

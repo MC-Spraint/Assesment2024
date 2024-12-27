@@ -7,15 +7,13 @@ import { LocationDTO } from './create-point.dto';
 
 export class UpdatePointDto {
   @ApiPropertyOptional({
-    description: 'The new GeoJSON string representing the location',
-    example: '{"type":"Point","coordinates":[-77.0364,38.8951]}',
+    example: { type: 'Point', coordinates: [-77.0364, 38.8951] },
   })
   @IsOptional()
   @Type(() => LocationDTO)
   location?: LocationDTO;
 
   @ApiProperty({
-    description: 'The new description of the point',
     example: 'Updated description for the point.',
   })
   @IsOptional()
@@ -23,10 +21,7 @@ export class UpdatePointDto {
   description?: string;
 }
 export class UpdatePointResponse extends CommonResponse {
-  @ApiProperty({
-    description: 'Updated point',
-    type: Point,
-  })
+  @ApiProperty({})
   @Type(() => Point)
   data: Point;
 }

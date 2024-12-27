@@ -7,7 +7,6 @@ import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
 // Define the class for the Area (Polygon) GeoJSON representation
 export class AreaDto {
   @ApiProperty({
-    description: 'The type of the GeoJSON object, e.g., "Polygon"',
     example: 'Polygon',
   })
   @IsNotEmpty()
@@ -15,8 +14,6 @@ export class AreaDto {
   type: 'Polygon';
 
   @ApiProperty({
-    description:
-      'The coordinates of the polygon as an array of arrays of numbers (latitude, longitude)',
     example: [
       [
         [-77.0364, 38.8951],
@@ -35,7 +32,6 @@ export class AreaDto {
 
 export class CreatePolygonDto {
   @ApiProperty({
-    description: 'The GeoJSON object representing the area (polygon)',
     example: {
       type: 'Polygon',
       coordinates: [
@@ -54,7 +50,6 @@ export class CreatePolygonDto {
   area: AreaDto;
 
   @ApiProperty({
-    description: 'A brief description of the area',
     example: 'A popular tourist spot with a large park in Washington, DC.',
   })
   @IsString()
@@ -63,10 +58,7 @@ export class CreatePolygonDto {
 }
 
 export class CreatePolygonResponse extends CommonResponse {
-  @ApiProperty({
-    description: 'Create polygon',
-    type: Polygon,
-  })
+  @ApiProperty({})
   @Type(() => Polygon)
   data: Polygon;
 }
