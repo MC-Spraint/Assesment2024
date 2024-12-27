@@ -3,6 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
 import { Type } from 'class-transformer';
 import { Point } from '../entity/point.entity';
+import { LocationDTO } from './create-point.dto';
 
 export class UpdatePointDto {
   @ApiPropertyOptional({
@@ -10,8 +11,8 @@ export class UpdatePointDto {
     example: '{"type":"Point","coordinates":[-77.0364,38.8951]}',
   })
   @IsOptional()
-  @IsString()
-  location?: string;
+  @Type(() => LocationDTO)
+  location?: LocationDTO;
 
   @ApiProperty({
     description: 'The new description of the point',

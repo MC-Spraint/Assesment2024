@@ -116,26 +116,17 @@ export class PolygonsController {
     type: CommonErrorResponseDto,
   })
   @Delete(':id')
-  async deletePoint(
+  async deletePolygon(
     @Res() res: Response,
     @Param('id') id: number,
   ): Promise<Response<DeletePolygonResponse>> {
     const result = await this.polygonsService.deletePolygon(id);
-    const message = 'Point Deleted';
+    const message = 'Polygon is Deleted';
     const response = this._utilService.successResponse<Partial<Polygon>>(
       SuccessResponse.OK,
       message,
       result,
     );
     return res.status(HttpStatus.OK).json(response);
-  }
-  @ApiResponse({
-    status: 200,
-    description: 'The polygon has been successfully deleted.',
-  })
-  @ApiResponse({ status: 404, description: 'Polygon not found.' })
-  @Delete(':id')
-  async deletePolygon(@Param('id') id: number) {
-    return this.polygonsService.deletePolygon(id);
   }
 }

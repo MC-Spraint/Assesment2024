@@ -1,27 +1,68 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsArray, ArrayNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Polygon } from '../entity/polygon.entity';
 import { Type } from 'class-transformer';
 import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
 
-export class CreatePolygonDto {
+// Define the class for the Area (Polygon) GeoJSON representation
+export class AreaDto {
   @ApiProperty({
-    description: 'GeoJSON representation of the polygon area',
-    example:
-      '{"type":"Polygon","coordinates":[[[30,10],[40,40],[20,40],[10,20],[30,10]]]}',
+    description: 'The type of the GeoJSON object, e.g., "Polygon"',
+    example: 'Polygon',
   })
-  @IsString()
   @IsNotEmpty()
-  area: string;
+  @IsString()
+  type: 'Polygon';
 
   @ApiProperty({
-    description: 'Description of the polygon',
-    example: 'A sample polygon description',
+    description:
+      'The coordinates of the polygon as an array of arrays of numbers (latitude, longitude)',
+    example: [
+      [
+        [-77.0364, 38.8951],
+        [-77.0364, 38.8961],
+        [-77.0354, 38.8961],
+        [-77.0354, 38.8951],
+        [-77.0364, 38.8951],
+      ],
+    ],
+  })
+  @IsNotEmpty()
+  @ArrayNotEmpty()
+  @IsArray()
+  coordinates: number[][][]; // Coordinates for polygon are usually an array of arrays of points
+}
+
+// Define the main `Polygon` class that includes the Area class for the area field
+export class CreatePolygonDto {
+  @ApiProperty({
+    description: 'The GeoJSON object representing the area (polygon)',
+    example: {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [-77.0364, 38.8951],
+          [-77.0364, 38.8961],
+          [-77.0354, 38.8961],
+          [-77.0354, 38.8951],
+          [-77.0364, 38.8951],
+        ],
+      ],
+    },
+  })
+  @IsNotEmpty()
+  @Type(() => AreaDto)
+  area: AreaDto;
+
+  @ApiProperty({
+    description: 'A brief description of the area',
+    example: 'A popular tourist spot with a large park in Washington, DC.',
   })
   @IsString()
   @IsNotEmpty()
   description: string;
 }
+
 export class CreatePolygonResponse extends CommonResponse {
   @ApiProperty({
     description: 'Create polygon',

@@ -14,7 +14,7 @@ export class PolygonsRepository {
     const query = `
       INSERT INTO polygons (area, description)
       VALUES (ST_GeomFromGeoJSON($1), $2)
-      RETURNING id, ST_AsGeoJSON(area) AS area, description;
+      RETURNING id, ST_AsGeoJSON(area)::jsonb AS area, description;
     `;
     const [polygon] = await this.databaseService.query<Polygon>(query, params);
     return polygon;
@@ -22,7 +22,7 @@ export class PolygonsRepository {
 
   async getPolygons(): Promise<Polygon[]> {
     const query = `
-      SELECT id, ST_AsGeoJSON(area) AS area, description
+      SELECT id, ST_AsGeoJSON(area)::jsonb AS area, description
       FROM polygons;
     `;
     const polygons = await this.databaseService.query<Polygon>(query);
@@ -40,7 +40,7 @@ export class PolygonsRepository {
       SET area = COALESCE(ST_GeomFromGeoJSON($1), area),
           description = COALESCE($2, description)
       WHERE id = $3
-      RETURNING id, ST_AsGeoJSON(area) AS area, description;
+      RETURNING id, ST_AsGeoJSON(area)::jsonb AS area, description;
     `;
     const [polygon] = await this.databaseService.query<Polygon>(query, params);
     if (!polygon) throw new NotFoundException('Polygon Not Found!');
@@ -49,7 +49,10 @@ export class PolygonsRepository {
 
   async deletePolygon(id: number): Promise<Partial<Polygon>> {
     const params = [id];
-    const query = `DELETE FROM polygons WHERE id = $1 RETURNING *;`;
+    const query = `
+    DELETE FROM polygons 
+      WHERE id = $1 
+    RETURNING id, ST_AsGeoJSON(area)::jsonb AS area, description;`;
     const [polygon] = await this.databaseService.query<Polygon>(query, params);
     if (!polygon) throw new NotFoundException('Polygon Not Found');
     return polygon;

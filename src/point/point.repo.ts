@@ -15,7 +15,7 @@ export class PointsRepository {
     const query = `
       INSERT INTO points (location, description)
       VALUES (ST_GeomFromGeoJSON($1), $2)
-      RETURNING id, ST_AsGeoJSON(location) AS location, description;
+      RETURNING id, ST_AsGeoJSON(location)::jsonb AS location, description;
     `;
     const [point] = await this.databaseService.query<Point>(query, [
       location,
@@ -26,7 +26,10 @@ export class PointsRepository {
 
   async getPoints(): Promise<Point[]> {
     const query = `
-      SELECT id, ST_AsGeoJSON(location) AS location, description
+      SELECT 
+        id, 
+        ST_AsGeoJSON(location)::jsonb AS location, 
+        description
       FROM points;
     `;
     const points = await this.databaseService.query<Point>(query);
@@ -43,7 +46,7 @@ export class PointsRepository {
       SET location = COALESCE(ST_GeomFromGeoJSON($1), location),
           description = COALESCE($2, description)
       WHERE id = $3
-      RETURNING id, ST_AsGeoJSON(location) AS location, description;
+      RETURNING id, ST_AsGeoJSON(location)::jsonb AS location, description;
     `;
     const [updatePoint] = await this.databaseService.query<Point>(query, [
       location,
@@ -56,7 +59,11 @@ export class PointsRepository {
 
   async deletePoint(id: number): Promise<Partial<Point>> {
     const params = [id];
-    const query = `DELETE FROM points WHERE id = $1 RETURNING *;`;
+    const query = `
+    DELETE FROM points 
+      WHERE id = $1
+    RETURNING id, description, ST_AsGeoJSON(location)::jsonb AS location;
+    `;
     const [data] = await this.databaseService.query<Point>(query, params);
     if (!data) throw new NotFoundException('Point Not Found');
     return data;

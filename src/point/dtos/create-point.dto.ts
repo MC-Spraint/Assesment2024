@@ -1,17 +1,46 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { CommonResponse } from 'src/core/utils/dtos/common-response.dto';
 import { Point } from '../entity/point.entity';
 
-export class CreatePointDto {
+export class LocationDTO {
   @ApiProperty({
-    description: 'The GeoJSON string representing the location',
-    example: '{"type":"Point","coordinates":[-77.0364,38.8951]}',
+    description: 'The type of the GeoJSON object, e.g., "Point"',
+    example: 'Point',
   })
   @IsNotEmpty()
   @IsString()
-  location: string;
+  type: string;
+
+  @ApiProperty({
+    description:
+      'The coordinates of the point as an array of numbers [longitude, latitude]',
+    example: [-77.0364, 38.8951],
+  })
+  @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(2)
+  @ArrayMaxSize(2)
+  @IsNumber({}, { each: true })
+  coordinates: number[];
+}
+
+export class CreatePointDto {
+  @ApiProperty({
+    description: 'The GeoJSON object representing the location of the point',
+    example: '{"type":"Point","coordinates":[-77.0364,38.8951]}',
+  })
+  @IsNotEmpty()
+  @Type(() => LocationDTO)
+  location: LocationDTO;
 
   @ApiProperty({
     description: 'A brief description of the point',
@@ -21,6 +50,7 @@ export class CreatePointDto {
   @IsString()
   description: string;
 }
+
 export class CreatePointResponse extends CommonResponse {
   @ApiProperty({
     description: 'Create point',

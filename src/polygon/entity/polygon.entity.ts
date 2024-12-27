@@ -1,22 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+export class Area {
+  @ApiProperty({})
+  type: string;
+
+  @ApiProperty({})
+  coordinates: number[][][]; // Coordinates for polygon are usually an array of arrays of points
+}
 export class Polygon {
-  @ApiProperty({
-    description: 'The unique identifier of the polygon',
-    example: 1,
-  })
+  @ApiProperty({})
   id: number;
 
-  @ApiProperty({
-    description: 'GeoJSON representation of the polygon area',
-    example:
-      '{"type":"Polygon","coordinates":[[[30,10],[40,40],[20,40],[10,20],[30,10]]]}',
-  })
-  area: string;
+  @ApiProperty({})
+  area: Area;
 
-  @ApiProperty({
-    description: 'Description of the polygon',
-    example: 'A sample polygon description',
-  })
+  @ApiProperty({})
   description: string;
 }
